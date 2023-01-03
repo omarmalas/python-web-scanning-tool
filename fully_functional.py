@@ -15,7 +15,7 @@ def get_arguments():
     return parser.parse_args()
 
 
-user_choice=input("Select enum to perform: \n\n 1)subdomain [url WITHOUT http://] \n\n 2)crawler [url must start with 'https://'] \n\n 3)Brute_force_password [full url with the login directory: https://example.com/login/] \n\n 4)dns_lookup [example url: 'http://192.168.56.102/mutillidae/index.php?page=dns-lookup.php'] \n\n 5)Directory_enum [url WITHOUT http://] \n\n $: ")
+user_choice=input("Select enum to perform: \n\n 1)subdomain [url WITHOUT http://] \n\n 2)crawler [url must start with 'https://'] \n\n 3)Brute_force_password [full url with the login directory: https://example.com/login/] \n\n 4)GET_froms_from_HTML [example url: 'https://facebook.com'] \n\n 5)Directory_enum [url WITHOUT http://] \n\n $: ")
 
 def request(url):
     try:
@@ -52,10 +52,9 @@ args = get_arguments()
 user_URL= args.target_url
 
 app = Flask(__name__)
-
 #directory_enum
 def directory_enum(user_URL):
-    with open("/home/main/Desktop/python-project/wordlists/files-and-dirs-wordlist.txt", "r") as wordlist:
+    with open("/home/main/Desktop/python-proj/wordlists/files-and-dirs-wordlist.txt", "r") as wordlist:
         for line in wordlist:
             word = line.strip()
             test_url = user_URL + "/" + word
@@ -64,21 +63,22 @@ def directory_enum(user_URL):
                 save_to_database(test_url)
                 print(" [+] Discovered URL -->" + test_url)
 
-# #BruteForcePass
-def brute_force_password():
+#BruteForcePass #protip do not show passwords on websites
+def brute_force_password(user_URL):
     data_dict = {"username": "admin", "password": "", "login": "submit"}
-    with open("/home/main/Desktop/python-project/wordlists/passwords.txt", "r") as wordlist_file:
+    with open("/home/main/Desktop/python-proj/wordlists/passwords.txt", "r") as wordlist_file:
         for line in wordlist_file:
             word = line.strip()
             data_dict["password"] = word
             response = requests.post(user_URL, data=data_dict)
             if 'Login failed'.encode('utf-8') not in response.content:
                 print("[+] Got the password --> " + word)
+                save_to_database(word)
                 exit()
         print("[-] Reached end of line.")
 
-# #DNS_LOOKUP
-def dns_lookup(user_URL):
+#Get forms from an html page #this can't be saved and dispalyed into a website because it returns a from html elemnt
+def get_form(user_URL):
     response = request(user_URL)
     parsed_html = BeautifulSoup(response.content, 'html5lib')
     forms_list = parsed_html.findAll("form")
@@ -110,15 +110,13 @@ class MyClass:
                 self.target_links.append(link)
                 print(link)
                 self.crawl(link)
-        print()
 
 #Subdomain enumeration
 if user_choice=="1":
     @app.route("/")
     def main():
         subdomains = []
-
-        with open("/home/main/Desktop/python-project/wordlists/subdomains-wodlist.txt", "r") as wordlist:
+        with open("/home/main/Desktop/python-proj/wordlists/subdomains-wodlist.txt", "r") as wordlist:
             for line in wordlist:
                 word = line.strip()
                 test_url = "http://" + word + "." + user_URL
@@ -133,11 +131,13 @@ if user_choice=="1":
 #Crawler
 elif user_choice=="2":
     @app.route("/")
-    def crawl_results(user_URL):
+    def crawl_results():
         session = requests.Session()
         my_class = MyClass(user_URL, session)
         my_class.crawl(user_URL)
-        return render_template("crawl_results.html", links=links)
+        return render_template("crawl_results.html", subdomains=links)
+    if __name__ == "__main__":
+        app.run(debug=True, use_reloader=False)
 
 #bruteForce
 elif user_choice=="3":
