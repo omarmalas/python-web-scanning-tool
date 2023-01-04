@@ -144,7 +144,7 @@ elif user_choice=="3":
 
 #DNS_LOOKUP
 elif user_choice=="4":
-    dns_lookup(user_URL)
+    get_form(user_URL)
 
 #Directory_enum
 elif user_choice=="5":
