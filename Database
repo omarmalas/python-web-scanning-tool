@@ -5,7 +5,7 @@ sudo systemctl enable postgresql
 
 systemctl status postgresql
 
-sudo -u postgres <user>
+sudo -u postgres
 
 #create user with password: 
 sudo -u postgres createuser &lt;name&gt;
