@@ -6,7 +6,6 @@ from flask import Flask, render_template
 import psycopg2 # import the PostgreSQL adapter for Python
 import urllib.parse as urlparse
 from bs4 import BeautifulSoup
-import ctypes
 import re
 
 def get_arguments():
@@ -15,7 +14,7 @@ def get_arguments():
     return parser.parse_args()
 
 
-user_choice=input("Select enum to perform: \n\n 1)subdomain [url WITHOUT http://] \n\n 2)crawler [url must start with 'https://'] \n\n 3)Brute_force_password [full url with the login directory: https://example.com/login/] \n\n 4)GET_froms_from_HTML [example url: 'https://facebook.com'] \n\n 5)Directory_enum [url WITHOUT http://] \n\n $: ")
+user_choice=input("Select enum to perform: \n\n 1)subdomain [url WITHOUT http://] \n\n 2)crawler [url must start with 'https://'] \n\n 3)Brute_force_password [full url with the login directory: https://example.com/login/] \n\n 4)GET_form_FIELDS_in_HTML [example url: 'https://facebook.com'] \n\n 5)Directory_enum [url WITH https://] \n\n $: ")
 
 def request(url):
     try:
