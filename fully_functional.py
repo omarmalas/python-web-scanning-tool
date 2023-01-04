@@ -140,7 +140,7 @@ elif user_choice=="2":
 
 #bruteForce
 elif user_choice=="3":
-    brute_force_password()
+    brute_force_password(user_URL)
 
 #DNS_LOOKUP
 elif user_choice=="4":
