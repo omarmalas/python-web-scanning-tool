@@ -134,7 +134,7 @@ elif user_choice=="2":
         session = requests.Session()
         my_class = MyClass(user_URL, session)
         my_class.crawl(user_URL)
-        return render_template("crawl_results.html", subdomains=links)
+        return render_template("index.html", subdomains=my_class.link)
     if __name__ == "__main__":
         app.run(debug=True, use_reloader=False)
 
