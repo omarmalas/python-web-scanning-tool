@@ -11,6 +11,9 @@ sudo -u postgres
 sudo -u postgres createuser &lt;name&gt;
 CREATE ROLE admin WITH LOGIN SUPERUSER CREATEDB CREATEROLE PASSWORD 'Passw0rd';
 
+#Change existing user Password: 
+ALTER USER user_name WITH PASSWORD 'new_password';
+
 #create database postgress
 CREATE DATABASE name
 
@@ -21,3 +24,16 @@ CREATE TABLE [IF NOT EXISTS] table_name (
    column3 datatype(length) column_contraint,
    table_constraints
 );
+
+#List users in postgress: 
+\du 
+
+#List databases in postgres: 
+\l
+
+#Select Database to work with: 
+\c DATABASENAME
+
+#List tables in a database: 
+\dt
+
