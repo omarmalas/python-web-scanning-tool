@@ -38,3 +38,5 @@ CREATE TABLE [IF NOT EXISTS] table_name (
 #List tables in a database: 
 \dt
 
+#References: 
+https://www3.ntu.edu.sg/home/ehchua/programming/sql/PostgreSQL_GetStarted.html
